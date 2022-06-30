@@ -22,7 +22,21 @@ const findById = async (req, res, _next) => {
   }
 };
 
+const addNewProduct = async (req, res, next) => {
+  try {
+    const { name } = req.body;
+
+    const newProduct = await ProductsService.addNewProduct(name);
+
+    return res.status(201).json(newProduct);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
 module.exports = {
   getAll,
   findById,
+  addNewProduct,
 };
