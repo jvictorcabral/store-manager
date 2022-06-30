@@ -22,7 +22,7 @@ const findById = async (req, res, _next) => {
   }
 };
 
-const addNewProduct = async (req, res, next) => {
+const addNewProduct = async (req, res, _next) => {
   try {
     const { name } = req.body;
 
@@ -30,8 +30,7 @@ const addNewProduct = async (req, res, next) => {
 
     return res.status(201).json(newProduct);
   } catch (err) {
-    console.log(err);
-    next(err);
+    return res.status(err.status).json({ message: err.message });
   }
 };
 

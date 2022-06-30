@@ -18,6 +18,19 @@ const findById = async (id) => {
 };
 
 const addNewProduct = async (name) => {
+  const errorWitchOutName = {
+    status: 400,
+    message: '"name" is required',
+  };
+
+  const errorLengthMustBe5 = {
+    status: 422,
+    message: '"name" length must be at least 5 characters long',
+  };
+
+  if (!name) throw errorWitchOutName;
+  if (name.length < 5) throw errorLengthMustBe5;
+
   const newProduct = await ProductsModel.addNewProduct(name);
 
   return newProduct;
