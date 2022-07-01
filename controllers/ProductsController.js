@@ -18,7 +18,7 @@ const findById = async (req, res, _next) => {
 
     return res.status(200).json(productById);
   } catch (err) {
-    return res.status(404).json({ message: err.message });
+    return res.status(err.status).json({ message: err.message });
   }
 };
 
@@ -34,8 +34,22 @@ const addNewProduct = async (req, res, _next) => {
   }
 };
 
+const updateProduct = async (req, res, _next) => {
+  try {
+    const { name } = req.body;
+    const { id } = req.params;
+
+    const update = await ProductsService.updateProduct(name, id);
+
+    return res.status(200).json(update);
+  } catch (err) {
+    return res.status(err.status).json({ message: err.message });
+  }
+};
+
 module.exports = {
   getAll,
   findById,
   addNewProduct,
+  updateProduct,
 };
