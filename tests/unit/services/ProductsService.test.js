@@ -70,4 +70,51 @@ describe('ProductsService', () => {
       });
     });
   });
+
+  describe('addNewProduct', () => {
+    // describe("quando o payload informado não é válido", async () => {
+    //   const payloadProduct = {};
+
+    //   it("retorna um throw", async () => {
+    //     const response = await ProductsService.addNewProduct(payloadProduct);
+
+    //     expect(response).throw();
+    //   });
+
+    //   it('o boolean contém "false"', async () => {
+    //     const response = await ProductsService.addNewProduct(payloadProduct);
+
+    //     expect(response).to.be.equal(false);
+    //   });
+    // });
+
+    describe("quando é inserido com sucesso", async () => {
+
+      const payloadProduct = {
+        name: 'abacate albino'
+      };
+
+      before(async () => {
+        const execute = [{ insertId: 1 }];
+
+        sinon.stub(ProductsModel, 'getAll').resolves(execute);
+      });
+
+      after(async () => {
+        ProductsModel.getAll.restore();
+      });
+
+      it("retorna um objeto", async () => {
+        const response = await ProductsService.addNewProduct(payloadProduct);
+
+        expect(response).to.be.a("object");
+      });
+
+      it('tal objeto possui o "id" do novo filme inserido', async () => {
+        const response = await ProductsService.addNewProduct(payloadProduct);
+
+        expect(response).to.have.a.property("id");
+      });
+    });
+  });
 });
