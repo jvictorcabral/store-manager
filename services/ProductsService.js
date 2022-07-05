@@ -10,7 +10,10 @@ const errorLengthMustBe5 = {
   message: '"name" length must be at least 5 characters long',
 };
 
-const errorMessage = { status: 404, message: 'Product not found' };
+const errorNotFound = {
+  status: 404,
+  message: 'Product not found',
+};
 
 const getAll = async () => {
   const products = await ProductsModel.getAll();
@@ -22,7 +25,7 @@ const findById = async (id) => {
   const [products] = await ProductsModel.findById(id);
 
   if (!products) {
-    throw errorMessage;
+    throw errorNotFound;
   }
 
   return products;
@@ -44,7 +47,7 @@ const updateProduct = async (name, id) => {
   const [products] = await ProductsModel.findById(id);
 
   if (!products) {
-    throw errorMessage;
+    throw errorNotFound;
   }
 
   const update = await ProductsModel.updateProduct(name, id);
@@ -58,7 +61,7 @@ const deleteProduct = async (id) => {
   const [products] = await ProductsModel.findById(id);
 
   if (!products) {
-    throw errorMessage;
+    throw errorNotFound;
   }
 
   const deletingProduct = await ProductsModel.deleteProduct(id);
