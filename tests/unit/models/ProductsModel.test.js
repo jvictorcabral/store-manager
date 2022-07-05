@@ -27,6 +27,7 @@ describe('ProductsModel', () => {
         expect(result).to.be.empty;
       });
     });
+
     describe('quando possuem produtos no banco de dados', () => {
 
       const resultQuery = [
@@ -69,4 +70,34 @@ describe('ProductsModel', () => {
       });
     });
   });
+
+  describe('addNewProduct', () => {
+    const payloadProduct = {
+      name: 'abacate albino'
+    };
+
+    before(async () => {
+      const execute = [{ insertId: 1 }];
+
+      sinon.stub(connection, "query").resolves(execute);
+    });
+
+    after(async () => {
+      connection.query.restore();
+    });
+
+    describe("quando é inserido com sucesso", async () => {
+      it("retorna um objeto", async () => {
+        const response = await ProductsModel.addNewProduct(payloadProduct);
+
+        expect(response).to.be.a("object");
+      });
+
+      it('tal objeto possui o "id" do novo filme inserido', async () => {
+        const response = await ProductsModel.addNewProduct(payloadProduct);
+
+        expect(response).to.have.a.property("id");
+      });
+    });
+  })
 });
